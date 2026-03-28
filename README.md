@@ -1,73 +1,45 @@
-# React + TypeScript + Vite
+# Tuklas nin Sining
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A free, volunteer-built research paper archive for a local high school in the Philippines.
 
-Currently, two official plugins are available:
+## What It Does
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Students write research papers every school year. Future students often struggle to find past papers for reference, or accidentally pick topics that have already been done. This site solves that by giving everyone a searchable archive of all past research.
 
-## React Compiler
+**For students and the public:**
+- Browse and search research papers by title, keyword, grade level, school year, or teacher
+- Read abstracts and download full PDFs
+- Student names are hidden for privacy
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**For teachers (authorized access only):**
+- Sign in to view student names alongside papers
+- Upload new research papers with metadata (title, students, grade, section, etc.)
+- Accounts are created by the site admin — no self-registration
 
-## Expanding the ESLint configuration
+## Privacy
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Student names are never shown to the public. Only logged-in teachers can see them. The sign-in page is intentionally hidden — there's no link to it anywhere on the site.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+All data handling follows the Philippine Data Privacy Act (RA 10173). Papers are only uploaded with signed parental/guardian consent forms. Anyone can request removal of their data at any time.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Tech Stack
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- React + TypeScript frontend, hosted on Vercel
+- Supabase for the database and teacher authentication
+- Cloudflare R2 for PDF storage
+- Tailwind CSS for styling (with dark mode)
+
+## Running Locally
+
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+You'll need a `.env.local` file with your Supabase credentials. See `.env.example` for the required variables.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## About
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Tuklas nin Sining is an independent project. It is not affiliated with, endorsed by, or authorized by any school, the Department of Education (DepEd), or any government institution.
+
+Built by KMercad0.
