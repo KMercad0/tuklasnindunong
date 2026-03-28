@@ -33,7 +33,7 @@ export function useUpload() {
       // 1. Validate metadata
       const validation = paperSchema.safeParse(formData)
       if (!validation.success) {
-        const firstError = validation.error.errors[0]
+        const firstError = validation.error.issues[0]
         throw new Error(firstError.message)
       }
       setProgress(10)
