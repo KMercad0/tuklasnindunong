@@ -53,7 +53,7 @@ export function SignInPage() {
         </div>
 
         {/* Form card */}
-        <section className="bg-surface-container-lowest p-8 lg:p-10 rounded-xl relative overflow-hidden">
+        <section className="bg-surface-container-lowest p-6 md:p-8 lg:p-10 rounded-xl relative overflow-hidden">
           <div className="absolute top-0 left-0 w-1 h-full scholarly-gradient" />
 
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -145,7 +145,7 @@ export function SignInPage() {
       </main>
 
       {/* Background watermark */}
-      <div className="fixed bottom-8 left-1/2 -translate-x-1/2 opacity-[0.03] pointer-events-none select-none">
+      <div className="fixed bottom-8 left-1/2 -translate-x-1/2 opacity-[0.03] pointer-events-none select-none hidden md:block">
         <span className="text-[80px] font-black tracking-tighter text-outline whitespace-nowrap uppercase">
           Archive Access
         </span>

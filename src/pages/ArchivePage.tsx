@@ -43,18 +43,38 @@ export function ArchivePage() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
+  const [filtersOpen, setFiltersOpen] = useState(false)
+
   return (
-    <main className="pt-24 pb-20 px-6 max-w-7xl mx-auto">
+    <main className="pt-20 md:pt-24 pb-12 md:pb-20 px-4 md:px-6 max-w-7xl mx-auto">
       {/* Hero Search */}
-      <section className="mb-12">
-        <h1 className="text-4xl font-extrabold tracking-tight mb-8 text-on-surface">
+      <section className="mb-6 md:mb-12">
+        <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight mb-4 md:mb-8 text-on-surface">
           Research Archive
         </h1>
         <SearchBar value={searchInput} onChange={setSearchInput} />
       </section>
 
+      {/* Mobile filter toggle */}
+      <div className="lg:hidden mb-4">
+        <button
+          onClick={() => setFiltersOpen(!filtersOpen)}
+          className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-primary border border-primary/20 rounded-lg hover:bg-primary/5 transition-colors"
+        >
+          <span className="material-symbols-outlined text-lg">tune</span>
+          {filtersOpen ? 'Hide Filters' : 'Filters'}
+        </button>
+      </div>
+
+      {/* Mobile filters drawer */}
+      {filtersOpen && (
+        <div className="lg:hidden mb-6">
+          <FilterSidebar filters={filters} onChange={setFilters} />
+        </div>
+      )}
+
       {/* Grid: Content + Sidebar */}
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-12">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-6 lg:gap-12">
         {/* Main content */}
         <div>
           <PaperList
@@ -71,7 +91,7 @@ export function ArchivePage() {
           )}
         </div>
 
-        {/* Sidebar */}
+        {/* Desktop sidebar */}
         <aside className="hidden lg:block">
           <div className="sticky top-28 space-y-8">
             <FilterSidebar filters={filters} onChange={setFilters} />

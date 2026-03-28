@@ -62,11 +62,11 @@ export function UploadPage() {
   }
 
   return (
-    <main className="pt-32 pb-24 px-6 max-w-7xl mx-auto min-h-screen">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+    <main className="pt-20 md:pt-32 pb-16 md:pb-24 px-4 md:px-6 max-w-7xl mx-auto min-h-screen">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12">
         {/* Sidebar */}
         <div className="lg:col-span-4">
-          <div className="sticky top-32">
+          <div className="lg:sticky lg:top-32">
             <Link
               to="/"
               className="inline-flex items-center gap-2 text-primary hover:underline mb-8 font-medium"
@@ -76,15 +76,15 @@ export function UploadPage() {
               </span>
               Go back to Archive
             </Link>
-            <h1 className="text-4xl font-bold tracking-tight text-on-surface mb-4 leading-tight">
-              Curate New <br />
+            <h1 className="text-2xl md:text-4xl font-bold tracking-tight text-on-surface mb-4 leading-tight">
+              Curate New <br className="hidden md:block" />
               <span className="text-primary">Research</span>
             </h1>
-            <p className="text-on-surface-variant leading-relaxed mb-8 max-w-xs">
+            <p className="text-on-surface-variant leading-relaxed mb-6 md:mb-8 max-w-xs">
               Contribute to the academic legacy. Ensure all metadata is accurate
               for better searchability within the Digital Archive.
             </p>
-            <div className="bg-surface-container-low p-6 rounded-xl space-y-4">
+            <div className="hidden lg:block bg-surface-container-low p-6 rounded-xl space-y-4">
               <div className="flex items-start gap-4">
                 <span className="material-symbols-outlined text-primary">
                   info
@@ -107,7 +107,7 @@ export function UploadPage() {
 
         {/* Form */}
         <div className="lg:col-span-8">
-          <div className="bg-surface-container-lowest p-8 md:p-12 rounded-xl shadow-sm">
+          <div className="bg-surface-container-lowest p-5 md:p-8 lg:p-12 rounded-xl shadow-sm">
             <form onSubmit={handleSubmit} className="space-y-10">
               {/* Paper Identity */}
               <section className="space-y-6">
@@ -306,7 +306,7 @@ export function UploadPage() {
                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                   />
                   <div
-                    className={`border-2 border-dashed rounded-xl p-12 text-center transition-all duration-300 ${
+                    className={`border-2 border-dashed rounded-xl p-8 md:p-12 text-center transition-all duration-300 ${
                       dragActive
                         ? 'border-primary bg-primary/5'
                         : pdfFile
@@ -369,7 +369,7 @@ export function UploadPage() {
               )}
 
               {/* Actions */}
-              <div className="pt-8 flex items-center justify-end gap-6">
+              <div className="pt-6 md:pt-8 flex flex-col-reverse md:flex-row items-center justify-end gap-4 md:gap-6">
                 <Link
                   to="/"
                   className="text-secondary hover:text-on-surface transition-colors font-medium"
@@ -379,7 +379,7 @@ export function UploadPage() {
                 <button
                   type="submit"
                   disabled={uploading || !pdfFile}
-                  className="scholarly-gradient text-on-primary font-semibold px-10 py-4 rounded-lg shadow-lg hover:translate-y-[-2px] transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:hover:translate-y-0"
+                  className="w-full md:w-auto scholarly-gradient text-on-primary font-semibold px-10 py-4 rounded-lg shadow-lg hover:translate-y-[-2px] transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:hover:translate-y-0"
                 >
                   {uploading ? 'Uploading...' : 'Submit Entry'}
                 </button>

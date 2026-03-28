@@ -40,10 +40,10 @@ export function PaperPage() {
   }
 
   return (
-    <main className="pt-24 pb-20">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <main className="pt-20 md:pt-24 pb-12 md:pb-20">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         {/* Back link */}
-        <div className="mb-12">
+        <div className="mb-6 md:mb-12">
           <Link
             to="/"
             className="inline-flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors text-sm font-medium"
@@ -56,10 +56,10 @@ export function PaperPage() {
         </div>
 
         {/* Asymmetric grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-20">
           {/* Left column — 8 cols */}
           <div className="lg:col-span-8">
-            <header className="mb-12">
+            <header className="mb-8 md:mb-12">
               {/* Keyword chips */}
               {paper.keywords && paper.keywords.length > 0 && (
                 <div className="flex flex-wrap gap-2 mb-6">
@@ -75,12 +75,12 @@ export function PaperPage() {
               )}
 
               {/* Title */}
-              <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-on-surface leading-[1.1] mb-8 max-w-3xl">
+              <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold tracking-tight text-on-surface leading-[1.1] mb-6 md:mb-8 max-w-3xl">
                 {paper.title}
               </h1>
 
               {/* Author + School Year */}
-              <div className="flex flex-col md:flex-row md:items-center gap-6 text-on-surface-variant border-l-4 border-primary/20 pl-6">
+              <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6 text-on-surface-variant border-l-4 border-primary/20 pl-4 md:pl-6">
                 {isAuthenticated && hasStudentNames(paper) && (
                   <>
                     <div>
@@ -107,12 +107,12 @@ export function PaperPage() {
 
             {/* Abstract */}
             {paper.abstract && (
-              <section className="mb-16">
-                <h2 className="text-xs font-bold uppercase tracking-widest text-outline mb-6">
+              <section className="mb-10 md:mb-16">
+                <h2 className="text-xs font-bold uppercase tracking-widest text-outline mb-4 md:mb-6">
                   Abstract
                 </h2>
-                <div className="bg-surface-container-low p-8 lg:p-12 rounded-xl">
-                  <p className="text-lg leading-relaxed text-on-surface-variant font-light italic">
+                <div className="bg-surface-container-low p-5 md:p-8 lg:p-12 rounded-xl">
+                  <p className="text-base md:text-lg leading-relaxed text-on-surface-variant font-light italic">
                     {paper.abstract}
                   </p>
                 </div>
@@ -121,9 +121,9 @@ export function PaperPage() {
 
             {/* PDF Download */}
             <section>
-              <div className="relative group overflow-hidden rounded-xl bg-surface-container-high flex flex-col items-center justify-center text-center p-12 border border-transparent hover:border-primary/30 transition-all duration-300">
+              <div className="relative group overflow-hidden rounded-xl bg-surface-container-high flex flex-col items-center justify-center text-center p-8 md:p-12 border border-transparent hover:border-primary/30 transition-all duration-300">
                 <span
-                  className="material-symbols-outlined text-6xl text-primary mb-4"
+                  className="material-symbols-outlined text-5xl md:text-6xl text-primary mb-4"
                   style={{ fontVariationSettings: "'FILL' 1" }}
                 >
                   description
@@ -149,8 +149,8 @@ export function PaperPage() {
 
           {/* Right column — 4 cols (metadata sidebar) */}
           <aside className="lg:col-span-4">
-            <div className="sticky top-32 space-y-12">
-              <div className="space-y-8 p-8 bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/10">
+            <div className="lg:sticky lg:top-32 space-y-8 lg:space-y-12">
+              <div className="space-y-6 md:space-y-8 p-5 md:p-8 bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/10">
                 <div>
                   <h4 className="text-xs font-bold uppercase tracking-widest text-outline mb-3">
                     Grade Level

@@ -32,7 +32,7 @@ export function FilterSidebar({ filters, onChange }: FilterSidebarProps) {
   }
 
   return (
-    <div className="bg-surface-container-low p-8 rounded-xl">
+    <div className="bg-surface-container-low p-5 md:p-8 rounded-xl">
       <div>
           <h3 className="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-4">
             Refine Search

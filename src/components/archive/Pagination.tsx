@@ -25,7 +25,7 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage <= 1}
-        className="w-10 h-10 flex items-center justify-center rounded-lg bg-surface-container-high text-on-surface-variant disabled:opacity-30"
+        className="w-11 h-11 flex items-center justify-center rounded-lg bg-surface-container-high text-on-surface-variant disabled:opacity-30"
       >
         <span className="material-symbols-outlined">chevron_left</span>
       </button>
@@ -34,7 +34,7 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
         <button
           key={page}
           onClick={() => onPageChange(page)}
-          className={`w-10 h-10 flex items-center justify-center rounded-lg font-bold transition-colors ${
+          className={`w-11 h-11 flex items-center justify-center rounded-lg font-bold transition-colors ${
             page === currentPage
               ? 'bg-primary text-on-primary'
               : 'hover:bg-surface-container-high'
@@ -47,7 +47,7 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage >= totalPages}
-        className="w-10 h-10 flex items-center justify-center rounded-lg bg-surface-container-high text-on-surface-variant disabled:opacity-30"
+        className="w-11 h-11 flex items-center justify-center rounded-lg bg-surface-container-high text-on-surface-variant disabled:opacity-30"
       >
         <span className="material-symbols-outlined">chevron_right</span>
       </button>

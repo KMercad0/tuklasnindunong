@@ -25,7 +25,7 @@ export function ConsentBanner() {
         {/* Header accent */}
         <div className="h-1 scholarly-gradient" />
 
-        <div className="p-8 space-y-6">
+        <div className="p-5 md:p-8 space-y-5 md:space-y-6">
           {/* Icon + Title */}
           <div className="flex items-start gap-4">
             <div className="w-10 h-10 scholarly-gradient rounded-lg flex items-center justify-center shrink-0 shadow-sm">
