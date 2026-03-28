@@ -28,13 +28,16 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Disclaimer */}
-      <div className="border-t border-outline-variant/10 px-8 py-4 max-w-7xl mx-auto">
+      {/* Disclaimer + Credit */}
+      <div className="border-t border-outline-variant/10 px-8 py-4 max-w-7xl mx-auto space-y-2">
         <p className="text-[10px] text-outline text-center leading-relaxed">
           Tuklas nin Sining is an independent, volunteer-maintained academic
           archive. It is not affiliated with, endorsed by, or authorized by any
           school, the Department of Education (DepEd), or any government
           institution.
+        </p>
+        <p className="text-[10px] text-outline/60 text-center">
+          by KMercad0
         </p>
       </div>
     </footer>

@@ -30,9 +30,9 @@ export function usePapers(filters: PaperFilters, isAuthenticated: boolean) {
         query = query.in('grade', filters.grade)
       }
 
-      // School year filter
-      if (filters.school_year) {
-        query = query.eq('school_year', filters.school_year)
+      // School year filter (multiple years)
+      if (filters.school_year && filters.school_year.length > 0) {
+        query = query.in('school_year', filters.school_year)
       }
 
       // Teacher name filter (partial match)

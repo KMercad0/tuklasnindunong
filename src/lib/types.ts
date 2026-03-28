@@ -35,7 +35,7 @@ export interface PaperFormData {
 export interface PaperFilters {
   search?: string
   grade?: string[]
-  school_year?: string
+  school_year?: string[]
   teacher?: string
   page?: number
   per_page?: number

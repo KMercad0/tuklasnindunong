@@ -248,15 +248,23 @@ export function UploadPage() {
                     >
                       School Year
                     </label>
-                    <input
-                      type="text"
+                    <select
                       id="school_year"
                       required
                       value={schoolYear}
                       onChange={(e) => setSchoolYear(e.target.value)}
-                      placeholder="e.g., 2023-2024"
-                      className="w-full bg-surface-container-low border-none rounded-lg p-4 focus:ring-2 focus:ring-primary transition-all text-on-surface placeholder:text-outline"
-                    />
+                      className="w-full bg-surface-container-low border-none rounded-lg p-4 focus:ring-2 focus:ring-primary transition-all text-on-surface appearance-none"
+                    >
+                      <option value="">Select Year</option>
+                      <option value="2019-2020">2019-2020</option>
+                      <option value="2020-2021">2020-2021</option>
+                      <option value="2021-2022">2021-2022</option>
+                      <option value="2022-2023">2022-2023</option>
+                      <option value="2023-2024">2023-2024</option>
+                      <option value="2024-2025">2024-2025</option>
+                      <option value="2025-2026">2025-2026</option>
+                      <option value="2025-2026">2026-2027</option>
+                    </select>
                   </div>
                 </div>
                 <div>

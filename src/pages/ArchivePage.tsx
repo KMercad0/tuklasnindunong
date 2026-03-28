@@ -72,14 +72,14 @@ export function ArchivePage() {
         </div>
 
         {/* Sidebar */}
-        <div className="space-y-0">
-          <FilterSidebar filters={filters} onChange={setFilters} />
-          <div className="hidden lg:block sticky top-28 mt-8">
+        <aside className="hidden lg:block">
+          <div className="sticky top-28 space-y-8">
+            <FilterSidebar filters={filters} onChange={setFilters} />
             <div className="bg-surface-container-low p-8 rounded-xl">
               <ArchiveStats />
             </div>
           </div>
-        </div>
+        </aside>
       </div>
     </main>
   )

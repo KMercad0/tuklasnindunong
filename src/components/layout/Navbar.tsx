@@ -52,7 +52,7 @@ export function Navbar() {
         </nav>
 
         <div className="flex items-center gap-4">
-          {isAuthenticated && (
+{isAuthenticated && (
             <div className="relative">
               <button
                 onClick={() => setShowMenu(!showMenu)}

@@ -19,14 +19,21 @@ export function FilterSidebar({ filters, onChange }: FilterSidebarProps) {
     onChange({ ...filters, grade: updated, page: 1 })
   }
 
+  const handleYearToggle = (year: string) => {
+    const current = filters.school_year || []
+    const updated = current.includes(year)
+      ? current.filter((y) => y !== year)
+      : [...current, year]
+    onChange({ ...filters, school_year: updated, page: 1 })
+  }
+
   const handleReset = () => {
     onChange({ page: 1 })
   }
 
   return (
-    <aside className="hidden lg:block">
-      <div className="sticky top-28 space-y-8 bg-surface-container-low p-8 rounded-xl">
-        <div>
+    <div className="bg-surface-container-low p-8 rounded-xl">
+      <div>
           <h3 className="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-4">
             Refine Search
           </h3>
@@ -36,24 +43,22 @@ export function FilterSidebar({ filters, onChange }: FilterSidebarProps) {
               <label className="text-xs font-semibold text-secondary">
                 School Year
               </label>
-              <select
-                value={filters.school_year || ''}
-                onChange={(e) =>
-                  onChange({
-                    ...filters,
-                    school_year: e.target.value || undefined,
-                    page: 1,
-                  })
-                }
-                className="w-full bg-surface border-none text-sm rounded-lg focus:ring-primary"
-              >
-                <option value="">All Years</option>
+              <div className="space-y-1">
                 {schoolYears?.map((year) => (
-                  <option key={year} value={year}>
-                    {year}
-                  </option>
+                  <label
+                    key={year}
+                    className="flex items-center gap-2 text-sm cursor-pointer hover:text-primary transition-colors"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={filters.school_year?.includes(year) || false}
+                      onChange={() => handleYearToggle(year)}
+                      className="rounded-sm border-outline-variant text-primary focus:ring-primary"
+                    />
+                    <span>{year}</span>
+                  </label>
                 ))}
-              </select>
+              </div>
             </div>
 
             {/* Grade Level */}
@@ -107,7 +112,6 @@ export function FilterSidebar({ filters, onChange }: FilterSidebarProps) {
             </button>
           </div>
         </div>
-      </div>
-    </aside>
+    </div>
   )
 }
