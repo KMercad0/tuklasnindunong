@@ -24,7 +24,7 @@ export function Navbar() {
           to="/"
           className="text-xl font-bold tracking-tighter text-primary"
         >
-          Tuklas nin Sining
+          Tuklas nin Dunong
         </Link>
 
         {/* Desktop nav */}

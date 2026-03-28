@@ -12,7 +12,7 @@ export function PrivacyPage() {
         {/* 1 */}
         <Section title="1. Who We Are">
           <p>
-            Tuklas nin Sining is an independent, volunteer-maintained digital
+            Tuklas nin Dunong is an independent, volunteer-maintained digital
             archive of student research papers. It is operated by{' '}
             <strong className="text-on-surface">KMercad0</strong> as a personal
             goodwill project and is{' '}

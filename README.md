@@ -1,4 +1,4 @@
-# Tuklas nin Sining
+# Tuklas nin Dunong
 
 A free, volunteer-built research paper archive for a local high school in the Philippines.
 
@@ -40,6 +40,6 @@ You'll need a `.env.local` file with your Supabase credentials. See `.env.exampl
 
 ## About
 
-Tuklas nin Sining is an independent project. It is not affiliated with, endorsed by, or authorized by any school, the Department of Education (DepEd), or any government institution.
+Tuklas nin Dunong is an independent project. It is not affiliated with, endorsed by, or authorized by any school, the Department of Education (DepEd), or any government institution.
 
 Built by KMercad0.

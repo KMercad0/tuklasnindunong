@@ -203,7 +203,7 @@ export function PaperPage() {
                 </div>
                 <div>
                   <p className="text-sm font-bold text-on-surface">
-                    Tuklas nin Sining
+                    Tuklas nin Dunong
                   </p>
                   <p className="text-xs text-on-surface-variant">
                     Research Archive

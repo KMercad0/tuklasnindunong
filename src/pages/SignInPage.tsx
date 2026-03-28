@@ -41,7 +41,7 @@ export function SignInPage() {
               </span>
             </div>
             <h1 className="text-xl font-bold tracking-tighter text-primary">
-              Tuklas nin Sining
+              Tuklas nin Dunong
             </h1>
           </div>
           <h2 className="text-2xl font-bold tracking-tight text-on-surface">

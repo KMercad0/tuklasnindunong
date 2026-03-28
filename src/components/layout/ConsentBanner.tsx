@@ -49,7 +49,7 @@ export function ConsentBanner() {
           {/* Body */}
           <div className="space-y-4 text-sm text-on-surface-variant leading-relaxed">
             <p>
-              <strong className="text-on-surface">Tuklas nin Sining</strong> is
+              <strong className="text-on-surface">Tuklas nin Dunong</strong> is
               an independent, volunteer-maintained research archive. It is{' '}
               <strong className="text-on-surface">
                 not affiliated with, endorsed by, or authorized by
