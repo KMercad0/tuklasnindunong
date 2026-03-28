@@ -1,9 +1,11 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
+import { useTheme } from '../../hooks/useTheme'
 import { useState } from 'react'
 
 export function Navbar() {
   const { isAuthenticated, signOut } = useAuth()
+  const { resolvedTheme, toggle } = useTheme()
   const location = useLocation()
   const [showMenu, setShowMenu] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -16,7 +18,7 @@ export function Navbar() {
   }
 
   return (
-    <header className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md shadow-sm">
+    <header className="fixed top-0 w-full z-50 bg-surface-container-lowest/80 backdrop-blur-md shadow-sm">
       <div className="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto">
         <Link
           to="/"
@@ -51,8 +53,19 @@ export function Navbar() {
           )}
         </nav>
 
-        <div className="flex items-center gap-4">
-{isAuthenticated && (
+        <div className="flex items-center gap-2">
+          {/* Theme toggle */}
+          <button
+            onClick={toggle}
+            className="p-2 rounded-full hover:bg-surface-container-low transition-all duration-200"
+            aria-label="Toggle theme"
+          >
+            <span className="material-symbols-outlined text-on-surface-variant">
+              {resolvedTheme === 'dark' ? 'light_mode' : 'dark_mode'}
+            </span>
+          </button>
+
+          {isAuthenticated && (
             <div className="relative">
               <button
                 onClick={() => setShowMenu(!showMenu)}
@@ -87,7 +100,7 @@ export function Navbar() {
 
       {/* Mobile nav */}
       {mobileOpen && (
-        <div className="md:hidden bg-white/95 backdrop-blur-md border-t border-outline-variant/20 px-6 py-4 space-y-3">
+        <div className="md:hidden bg-surface-container-lowest/95 backdrop-blur-md border-t border-outline-variant/20 px-6 py-4 space-y-3">
           <Link
             to="/"
             className="block text-secondary hover:text-primary transition-colors"

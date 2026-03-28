@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { AuthContext, useAuthProvider } from './hooks/useAuth'
+import { ThemeContext, useThemeProvider } from './hooks/useTheme'
 import { Navbar } from './components/layout/Navbar'
 import { Footer } from './components/layout/Footer'
 import { ProtectedRoute } from './components/layout/ProtectedRoute'
@@ -32,6 +33,11 @@ function WithLayout({ children }: { children: React.ReactNode }) {
   )
 }
 
+function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const theme = useThemeProvider()
+  return <ThemeContext.Provider value={theme}>{children}</ThemeContext.Provider>
+}
+
 function AuthProvider({ children }: { children: React.ReactNode }) {
   const auth = useAuthProvider()
   return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>
@@ -40,6 +46,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
       <AuthProvider>
       <BrowserRouter>
         <ConsentBanner />
@@ -65,6 +72,7 @@ function App() {
         </Routes>
       </BrowserRouter>
       </AuthProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   )
 }
