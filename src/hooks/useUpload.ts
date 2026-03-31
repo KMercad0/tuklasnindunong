@@ -86,6 +86,7 @@ export function useUpload() {
         teacher_name: validation.data.teacher_name,
         teacher_id: user.id,
         pdf_url: urlData.publicUrl,
+        pdf_path: filePath,
         pdf_size_bytes: formData.pdf_file.size,
         keywords: validation.data.keywords.length > 0 ? validation.data.keywords : null,
       })

@@ -10,13 +10,26 @@ export interface Paper {
   teacher_name: string
   teacher_id: string
   pdf_url: string
+  pdf_path: string
   pdf_size_bytes: number | null
   keywords: string[] | null
+  view_count: number
   created_at: string
 }
 
-/** Public paper record (student_names excluded) */
-export type PaperPublic = Omit<Paper, 'student_names' | 'teacher_id'>
+/** Public paper record (no student_names, no PDF access) */
+export interface PaperPublic {
+  id: string
+  title: string
+  abstract: string | null
+  grade: string
+  section: string
+  school_year: string
+  teacher_name: string
+  keywords: string[] | null
+  view_count: number
+  created_at: string
+}
 
 /** Form data for creating a new paper entry */
 export interface PaperFormData {
@@ -37,6 +50,7 @@ export interface PaperFilters {
   grade?: string[]
   school_year?: string[]
   teacher?: string
+  sort_by?: 'newest' | 'most_viewed'
   page?: number
   per_page?: number
 }

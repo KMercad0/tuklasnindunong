@@ -41,7 +41,12 @@ export function usePapers(filters: PaperFilters, isAuthenticated: boolean) {
       }
 
       // Order and paginate
-      query = query.order('created_at', { ascending: false }).range(from, to)
+      if (filters.sort_by === 'most_viewed') {
+        query = query.order('view_count', { ascending: false })
+      } else {
+        query = query.order('created_at', { ascending: false })
+      }
+      query = query.range(from, to)
 
       const { data, count, error } = await query
 

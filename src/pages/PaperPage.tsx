@@ -1,6 +1,8 @@
 import { useParams, Link } from 'react-router-dom'
 import { usePaper } from '../hooks/usePapers'
 import { useAuth } from '../hooks/useAuth'
+import { useTrackView } from '../hooks/useTrackView'
+import { usePdfUrl } from '../hooks/usePdfUrl'
 import { formatFileSize } from '../lib/r2'
 import type { Paper } from '../lib/types'
 
@@ -8,10 +10,17 @@ function hasStudentNames(paper: unknown): paper is Paper {
   return typeof paper === 'object' && paper !== null && 'student_names' in paper
 }
 
+function hasPdfAccess(paper: unknown): paper is Paper {
+  return typeof paper === 'object' && paper !== null && 'pdf_path' in paper
+}
+
 export function PaperPage() {
   const { id } = useParams<{ id: string }>()
   const { isAuthenticated } = useAuth()
   const { data: paper, isLoading, error } = usePaper(id!, isAuthenticated)
+  useTrackView(id)
+  const pdfPath = paper && hasPdfAccess(paper) ? paper.pdf_path : undefined
+  const { signedUrl, isLoading: pdfLoading } = usePdfUrl(pdfPath, isAuthenticated)
 
   if (isLoading) {
     return (
@@ -119,30 +128,59 @@ export function PaperPage() {
               </section>
             )}
 
-            {/* PDF Download */}
+            {/* PDF Section — Download for teachers, Contact Adviser for public */}
             <section>
               <div className="relative group overflow-hidden rounded-xl bg-surface-container-high flex flex-col items-center justify-center text-center p-8 md:p-12 border border-transparent hover:border-primary/30 transition-all duration-300">
                 <span
                   className="material-symbols-outlined text-5xl md:text-6xl text-primary mb-4"
                   style={{ fontVariationSettings: "'FILL' 1" }}
                 >
-                  description
+                  {isAuthenticated ? 'description' : 'lock'}
                 </span>
-                <h3 className="text-xl font-bold text-on-surface mb-2">
-                  Research Paper
-                </h3>
-                <p className="text-on-surface-variant mb-8 max-w-xs mx-auto">
-                  Full research paper ({formatFileSize(paper.pdf_size_bytes)})
-                </p>
-                <a
-                  href={paper.pdf_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-3 px-8 py-4 scholarly-gradient text-on-primary font-bold rounded-md hover:translate-y-[-2px] transition-all duration-200 shadow-lg shadow-primary/20"
-                >
-                  <span className="material-symbols-outlined">download</span>
-                  Download PDF
-                </a>
+                {isAuthenticated && hasPdfAccess(paper) ? (
+                  <>
+                    <h3 className="text-xl font-bold text-on-surface mb-2">
+                      Research Paper
+                    </h3>
+                    <p className="text-on-surface-variant mb-8 max-w-xs mx-auto">
+                      Full research paper ({formatFileSize(paper.pdf_size_bytes)})
+                    </p>
+                    {pdfLoading ? (
+                      <div className="inline-flex items-center gap-3 px-8 py-4 bg-surface-container-highest text-on-surface-variant font-bold rounded-md">
+                        <span className="material-symbols-outlined animate-spin">progress_activity</span>
+                        Preparing download…
+                      </div>
+                    ) : signedUrl ? (
+                      <a
+                        href={signedUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-3 px-8 py-4 scholarly-gradient text-on-primary font-bold rounded-md hover:translate-y-[-2px] transition-all duration-200 shadow-lg shadow-primary/20"
+                      >
+                        <span className="material-symbols-outlined">download</span>
+                        Download PDF
+                      </a>
+                    ) : (
+                      <p className="text-on-surface-variant text-sm">
+                        Unable to generate download link. Please try again later.
+                      </p>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <h3 className="text-xl font-bold text-on-surface mb-2">
+                      Restricted Access
+                    </h3>
+                    <p className="text-on-surface-variant mb-4 max-w-sm mx-auto">
+                      To access the full research paper, please contact the research
+                      adviser through the school office.
+                    </p>
+                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-surface-container-lowest rounded-lg text-on-surface-variant text-sm">
+                      <span className="material-symbols-outlined text-[18px]">person</span>
+                      <span>Adviser: <strong className="text-on-surface">{paper.teacher_name}</strong></span>
+                    </div>
+                  </>
+                )}
               </div>
             </section>
           </div>
@@ -192,6 +230,17 @@ export function PaperPage() {
                     </div>
                   </div>
                 )}
+                <div>
+                  <h4 className="text-xs font-bold uppercase tracking-widest text-outline mb-3">
+                    Views
+                  </h4>
+                  <div className="flex items-center gap-2">
+                    <span className="material-symbols-outlined text-[18px] text-on-surface-variant">visibility</span>
+                    <p className="text-base font-semibold text-on-surface">
+                      {paper.view_count.toLocaleString()}
+                    </p>
+                  </div>
+                </div>
               </div>
 
               {/* School branding */}

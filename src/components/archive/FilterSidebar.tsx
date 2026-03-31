@@ -38,6 +38,35 @@ export function FilterSidebar({ filters, onChange }: FilterSidebarProps) {
             Refine Search
           </h3>
           <div className="space-y-6">
+            {/* Sort By */}
+            <div className="space-y-2">
+              <label className="text-xs font-semibold text-secondary">
+                Sort By
+              </label>
+              <div className="space-y-1">
+                {([
+                  { value: 'newest' as const, label: 'Newest First' },
+                  { value: 'most_viewed' as const, label: 'Most Viewed' },
+                ] as const).map((option) => (
+                  <label
+                    key={option.value}
+                    className="flex items-center gap-2 text-sm cursor-pointer hover:text-primary transition-colors"
+                  >
+                    <input
+                      type="radio"
+                      name="sort_by"
+                      checked={(filters.sort_by || 'newest') === option.value}
+                      onChange={() =>
+                        onChange({ ...filters, sort_by: option.value, page: 1 })
+                      }
+                      className="border-outline-variant text-primary focus:ring-primary"
+                    />
+                    <span>{option.label}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
             {/* School Year */}
             <div className="space-y-2">
               <label className="text-xs font-semibold text-secondary">

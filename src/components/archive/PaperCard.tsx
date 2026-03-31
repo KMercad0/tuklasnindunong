@@ -48,10 +48,14 @@ export function PaperCard({ paper, isAuthenticated }: PaperCardProps) {
             </p>
           )}
 
-          {/* Teacher */}
-          <p className="text-on-surface-variant text-xs italic">
-            Advised by: {paper.teacher_name}
-          </p>
+          {/* Teacher + View count */}
+          <div className="flex items-center gap-3 text-on-surface-variant text-xs">
+            <span className="italic">Advised by: {paper.teacher_name}</span>
+            <span className="flex items-center gap-1">
+              <span className="material-symbols-outlined text-[14px]">visibility</span>
+              {paper.view_count.toLocaleString()}
+            </span>
+          </div>
 
           {/* Abstract snippet */}
           {paper.abstract && (
@@ -68,9 +72,9 @@ export function PaperCard({ paper, isAuthenticated }: PaperCardProps) {
             className="w-full inline-flex items-center justify-center px-4 py-2 scholarly-gradient text-on-primary text-sm font-semibold rounded-md hover:translate-y-[-2px] transition-all shadow-sm"
           >
             <span className="material-symbols-outlined text-sm mr-2">
-              picture_as_pdf
+              {isAuthenticated ? 'picture_as_pdf' : 'article'}
             </span>
-            View PDF
+            {isAuthenticated ? 'View PDF' : 'View Details'}
           </Link>
         </div>
       </div>
