@@ -1,16 +1,12 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const CONSENT_KEY = 'tuklas_consent_accepted'
 
 export function ConsentBanner() {
-  const [visible, setVisible] = useState(false)
-
-  useEffect(() => {
-    if (!localStorage.getItem(CONSENT_KEY)) {
-      setVisible(true)
-    }
-  }, [])
+  const [visible, setVisible] = useState(
+    () => !localStorage.getItem(CONSENT_KEY)
+  )
 
   const handleAccept = () => {
     localStorage.setItem(CONSENT_KEY, 'true')

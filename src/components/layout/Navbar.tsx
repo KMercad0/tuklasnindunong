@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 import { useTheme } from '../../hooks/useTheme'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export function Navbar() {
   const { isAuthenticated, signOut } = useAuth()
@@ -9,6 +9,25 @@ export function Navbar() {
   const location = useLocation()
   const [showMenu, setShowMenu] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const menuRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!showMenu) return
+    const onPointer = (e: PointerEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setShowMenu(false)
+      }
+    }
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setShowMenu(false)
+    }
+    document.addEventListener('pointerdown', onPointer)
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('pointerdown', onPointer)
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [showMenu])
 
   const isActive = (path: string) => location.pathname === path
 
@@ -57,8 +76,8 @@ export function Navbar() {
           {/* Theme toggle */}
           <button
             onClick={toggle}
-            className="p-2 rounded-full hover:bg-surface-container-low transition-all duration-200"
-            aria-label="Toggle theme"
+            className="p-2 rounded-full hover:bg-surface-container-low focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary transition-all duration-200"
+            aria-label={`Switch to ${resolvedTheme === 'dark' ? 'light' : 'dark'} mode`}
           >
             <span className="material-symbols-outlined text-on-surface-variant">
               {resolvedTheme === 'dark' ? 'light_mode' : 'dark_mode'}
@@ -66,10 +85,13 @@ export function Navbar() {
           </button>
 
           {isAuthenticated && (
-            <div className="relative">
+            <div className="relative" ref={menuRef}>
               <button
                 onClick={() => setShowMenu(!showMenu)}
-                className="p-2 rounded-full hover:bg-surface-container-low transition-all duration-200"
+                aria-haspopup="menu"
+                aria-expanded={showMenu}
+                aria-label="Account menu"
+                className="p-2 rounded-full hover:bg-surface-container-low focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary transition-all duration-200"
               >
                 <span className="material-symbols-outlined">account_circle</span>
               </button>

@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /signin
+Disallow: /upload
+
+Sitemap: https://tuklasnindunong.vercel.app/sitemap.xml

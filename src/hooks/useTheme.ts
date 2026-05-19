@@ -20,10 +20,6 @@ function getSystemTheme(): ResolvedTheme {
     : 'light'
 }
 
-function resolve(theme: Theme): ResolvedTheme {
-  return theme === 'system' ? getSystemTheme() : theme
-}
-
 function applyTheme(resolved: ResolvedTheme) {
   document.documentElement.classList.toggle('dark', resolved === 'dark')
 }
@@ -34,9 +30,9 @@ export function useThemeProvider(): ThemeState {
     return stored ?? 'system'
   })
 
-  const [resolvedTheme, setResolved] = useState<ResolvedTheme>(() =>
-    resolve(theme)
-  )
+  const [systemTheme, setSystemTheme] = useState<ResolvedTheme>(getSystemTheme)
+
+  const resolvedTheme: ResolvedTheme = theme === 'system' ? systemTheme : theme
 
   const setTheme = (next: Theme) => {
     localStorage.setItem(STORAGE_KEY, next)
@@ -47,23 +43,18 @@ export function useThemeProvider(): ThemeState {
     setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
   }
 
-  // Apply theme class and listen for system changes
   useEffect(() => {
-    const resolved = resolve(theme)
-    setResolved(resolved)
-    applyTheme(resolved)
+    applyTheme(resolvedTheme)
+  }, [resolvedTheme])
 
-    if (theme === 'system') {
-      const mq = window.matchMedia('(prefers-color-scheme: dark)')
-      const handler = () => {
-        const r = getSystemTheme()
-        setResolved(r)
-        applyTheme(r)
-      }
-      mq.addEventListener('change', handler)
-      return () => mq.removeEventListener('change', handler)
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-color-scheme: dark)')
+    const handler = (e: MediaQueryListEvent) => {
+      setSystemTheme(e.matches ? 'dark' : 'light')
     }
-  }, [theme])
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
 
   return { theme, resolvedTheme, setTheme, toggle }
 }

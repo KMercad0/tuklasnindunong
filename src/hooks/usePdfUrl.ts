@@ -1,40 +1,28 @@
-import { useState, useEffect } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import { supabase } from '../lib/supabase'
 
 /** Generate a signed PDF URL for authenticated users. Returns null for public. */
 export function usePdfUrl(pdfPath: string | undefined, isAuthenticated: boolean) {
-  const [signedUrl, setSignedUrl] = useState<string | null>(null)
-  const [isLoading, setIsLoading] = useState(false)
+  const eligible = Boolean(pdfPath) && isAuthenticated
 
-  useEffect(() => {
-    if (!pdfPath || !isAuthenticated) {
-      setSignedUrl(null)
-      return
-    }
+  const { data, isLoading } = useQuery({
+    queryKey: ['pdf-signed-url', pdfPath],
+    enabled: eligible,
+    staleTime: 50 * 60 * 1000, // refresh before 1h expiry
+    queryFn: async () => {
+      const { data, error } = await supabase.storage
+        .from('papers')
+        .createSignedUrl(pdfPath as string, 3600)
+      if (error) {
+        console.warn('Failed to generate signed PDF URL:', error.message)
+        return null
+      }
+      return data.signedUrl
+    },
+  })
 
-    let cancelled = false
-    setIsLoading(true)
-
-    supabase.storage
-      .from('papers')
-      .createSignedUrl(pdfPath, 3600) // 1 hour expiry
-      .then(({ data, error }) => {
-        if (cancelled) return
-        if (error) {
-          console.warn('Failed to generate signed PDF URL:', error.message)
-          setSignedUrl(null)
-        } else {
-          setSignedUrl(data.signedUrl)
-        }
-      })
-      .finally(() => {
-        if (!cancelled) setIsLoading(false)
-      })
-
-    return () => {
-      cancelled = true
-    }
-  }, [pdfPath, isAuthenticated])
-
-  return { signedUrl, isLoading }
+  return {
+    signedUrl: eligible ? data ?? null : null,
+    isLoading: eligible ? isLoading : false,
+  }
 }

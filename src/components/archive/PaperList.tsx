@@ -10,15 +10,15 @@ interface PaperListProps {
 export function PaperList({ papers, isAuthenticated, isLoading }: PaperListProps) {
   if (isLoading) {
     return (
-      <div className="space-y-8">
-        {[1, 2, 3].map((i) => (
+      <div className="space-y-3">
+        {[1, 2, 3, 4].map((i) => (
           <div
             key={i}
-            className="bg-surface-container-lowest p-8 rounded-sm animate-pulse"
+            className="bg-surface-container-lowest border border-outline-variant/30 p-4 md:p-5 rounded-xl animate-pulse"
           >
-            <div className="h-4 bg-surface-container-high rounded w-1/4 mb-4" />
-            <div className="h-6 bg-surface-container-high rounded w-3/4 mb-3" />
-            <div className="h-3 bg-surface-container-high rounded w-1/2 mb-2" />
+            <div className="h-3 bg-surface-container-high rounded w-1/3 mb-3" />
+            <div className="h-5 bg-surface-container-high rounded w-3/4 mb-3" />
+            <div className="h-3 bg-surface-container-high rounded w-full mb-2" />
             <div className="h-3 bg-surface-container-high rounded w-2/3" />
           </div>
         ))}
@@ -28,22 +28,22 @@ export function PaperList({ papers, isAuthenticated, isLoading }: PaperListProps
 
   if (papers.length === 0) {
     return (
-      <div className="text-center py-16">
-        <span className="material-symbols-outlined text-5xl text-outline mb-4">
+      <div className="text-center py-16 bg-surface-container-lowest border border-outline-variant/30 rounded-xl">
+        <span className="material-symbols-outlined text-5xl text-outline mb-2 block">
           search_off
         </span>
-        <p className="text-on-surface-variant text-lg font-medium">
+        <p className="text-on-surface text-lg font-semibold">
           No research papers found
         </p>
-        <p className="text-outline text-sm mt-2">
-          Try adjusting your search or filters
+        <p className="text-on-surface-variant text-sm mt-1">
+          Try a different search term or clear your filters.
         </p>
       </div>
     )
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-3">
       {papers.map((paper) => (
         <PaperCard
           key={paper.id}

@@ -13,8 +13,9 @@ export function SearchBar({ value, onChange }: SearchBarProps) {
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        placeholder="Search by title, author, or keyword..."
-        className="w-full pl-12 pr-4 py-4 bg-surface-container-highest border-none rounded-xl focus:ring-2 focus:ring-primary transition-shadow placeholder:text-on-surface-variant/50"
+        placeholder="Search papers — try 'solar', 'mental health', or a teacher name…"
+        aria-label="Search research papers"
+        className="w-full pl-12 pr-4 py-4 bg-surface-container-highest border-none rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-shadow placeholder:text-on-surface-variant/50"
       />
     </div>
   )

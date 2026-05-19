@@ -48,10 +48,13 @@ export function ArchivePage() {
   return (
     <main className="pt-20 md:pt-24 pb-12 md:pb-20 px-4 md:px-6 max-w-7xl mx-auto">
       {/* Hero Search */}
-      <section className="mb-6 md:mb-12">
-        <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight mb-4 md:mb-8 text-on-surface">
+      <section className="mb-6 md:mb-10">
+        <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight text-on-surface">
           Research Archive
         </h1>
+        <p className="text-sm md:text-base text-on-surface-variant mt-2 mb-5 md:mb-7 max-w-2xl">
+          Browse student research papers. Search by topic, keyword, or adviser.
+        </p>
         <SearchBar value={searchInput} onChange={setSearchInput} />
       </section>
 
@@ -77,6 +80,26 @@ export function ArchivePage() {
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-6 lg:gap-12">
         {/* Main content */}
         <div>
+          {/* Result count */}
+          {!isLoading && data && (
+            <div className="mb-4 text-sm text-on-surface-variant">
+              {data.total === 0 ? (
+                'No papers match your filters.'
+              ) : (
+                <>
+                  Showing{' '}
+                  <span className="font-semibold text-on-surface">
+                    {data.data.length}
+                  </span>{' '}
+                  of{' '}
+                  <span className="font-semibold text-on-surface">
+                    {data.total}
+                  </span>{' '}
+                  {data.total === 1 ? 'paper' : 'papers'}
+                </>
+              )}
+            </div>
+          )}
           <PaperList
             papers={data?.data || []}
             isAuthenticated={isAuthenticated}
