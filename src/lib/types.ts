@@ -9,8 +9,8 @@ export interface Paper {
   school_year: string
   teacher_name: string
   teacher_id: string
-  pdf_url: string
-  pdf_path: string
+  pdf_url: string | null
+  pdf_path: string | null
   pdf_size_bytes: number | null
   keywords: string[] | null
   view_count: number
@@ -41,7 +41,7 @@ export interface PaperFormData {
   school_year: string
   teacher_name: string
   keywords: string[]
-  pdf_file: File
+  pdf_file: File | null
 }
 
 /** Search/filter parameters */

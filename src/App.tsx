@@ -16,6 +16,9 @@ import { ConsentBanner } from './components/layout/ConsentBanner'
 const UploadPage = lazy(() =>
   import('./pages/UploadPage').then((m) => ({ default: m.UploadPage }))
 )
+const EditPage = lazy(() =>
+  import('./pages/EditPage').then((m) => ({ default: m.EditPage }))
+)
 const SignInPage = lazy(() =>
   import('./pages/SignInPage').then((m) => ({ default: m.SignInPage }))
 )
@@ -72,6 +75,16 @@ function App() {
                   <Route path="/" element={<WithLayout><ArchivePage /></WithLayout>} />
                   <Route path="/privacy" element={<WithLayout><PrivacyPage /></WithLayout>} />
                   <Route path="/paper/:id" element={<WithLayout><PaperPage /></WithLayout>} />
+                  <Route
+                    path="/paper/:id/edit"
+                    element={
+                      <WithLayout>
+                        <ProtectedRoute>
+                          <EditPage />
+                        </ProtectedRoute>
+                      </WithLayout>
+                    }
+                  />
                   <Route
                     path="/upload"
                     element={

@@ -79,15 +79,29 @@ export function PaperCard({ paper, isAuthenticated }: PaperCardProps) {
 
         {/* Action */}
         <div className="flex flex-col items-stretch md:items-end gap-3 md:min-w-[140px]">
-          <Link
-            to={`/paper/${paper.id}`}
-            className="w-full inline-flex items-center justify-center px-4 py-2 scholarly-gradient text-on-primary text-sm font-semibold rounded-md hover:translate-y-[-2px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface transition-all shadow-sm"
-          >
-            <span className="material-symbols-outlined text-sm mr-2">
-              {isAuthenticated ? 'picture_as_pdf' : 'article'}
-            </span>
-            {isAuthenticated ? 'View PDF' : 'View Details'}
-          </Link>
+          {(() => {
+            const noPdf =
+              isAuthenticated && hasStudentNames(paper) && !paper.pdf_url
+            const icon = !isAuthenticated
+              ? 'article'
+              : noPdf
+                ? 'upload_file'
+                : 'picture_as_pdf'
+            const label = !isAuthenticated
+              ? 'View Details'
+              : noPdf
+                ? 'No PDF yet'
+                : 'View PDF'
+            return (
+              <Link
+                to={`/paper/${paper.id}`}
+                className="w-full inline-flex items-center justify-center px-4 py-2 scholarly-gradient text-on-primary text-sm font-semibold rounded-md hover:translate-y-[-2px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface transition-all shadow-sm"
+              >
+                <span className="material-symbols-outlined text-sm mr-2">{icon}</span>
+                {label}
+              </Link>
+            )
+          })()}
         </div>
       </div>
     </article>

@@ -19,7 +19,7 @@ export function PaperPage() {
   const { isAuthenticated } = useAuth()
   const { data: paper, isLoading, error } = usePaper(id!, isAuthenticated)
   useTrackView(id)
-  const pdfPath = paper && hasPdfAccess(paper) ? paper.pdf_path : undefined
+  const pdfPath = paper && hasPdfAccess(paper) ? paper.pdf_path ?? undefined : undefined
   const { signedUrl, isLoading: pdfLoading } = usePdfUrl(pdfPath, isAuthenticated)
 
   if (isLoading) {
@@ -51,8 +51,8 @@ export function PaperPage() {
   return (
     <main className="pt-20 md:pt-24 pb-12 md:pb-20">
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
-        {/* Back link */}
-        <div className="mb-6 md:mb-12">
+        {/* Back link + Edit (teachers) */}
+        <div className="mb-6 md:mb-12 flex items-center justify-between gap-4">
           <Link
             to="/"
             className="inline-flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors text-sm font-medium"
@@ -62,6 +62,15 @@ export function PaperPage() {
             </span>
             Back to Archive
           </Link>
+          {isAuthenticated && (
+            <Link
+              to={`/paper/${paper.id}/edit`}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-surface-container-high text-on-surface hover:text-primary rounded-lg transition-colors text-sm font-semibold"
+            >
+              <span className="material-symbols-outlined text-[18px]">edit</span>
+              Edit
+            </Link>
+          )}
         </div>
 
         {/* Asymmetric grid */}
@@ -135,9 +144,13 @@ export function PaperPage() {
                   className="material-symbols-outlined text-5xl md:text-6xl text-primary mb-4"
                   style={{ fontVariationSettings: "'FILL' 1" }}
                 >
-                  {isAuthenticated ? 'description' : 'lock'}
+                  {isAuthenticated
+                    ? hasPdfAccess(paper) && paper.pdf_path
+                      ? 'description'
+                      : 'upload_file'
+                    : 'lock'}
                 </span>
-                {isAuthenticated && hasPdfAccess(paper) ? (
+                {isAuthenticated && hasPdfAccess(paper) && paper.pdf_path ? (
                   <>
                     <h3 className="text-xl font-bold text-on-surface mb-2">
                       Research Paper
@@ -165,6 +178,22 @@ export function PaperPage() {
                         Unable to generate download link. Please try again later.
                       </p>
                     )}
+                  </>
+                ) : isAuthenticated ? (
+                  <>
+                    <h3 className="text-xl font-bold text-on-surface mb-2">
+                      PDF not yet available
+                    </h3>
+                    <p className="text-on-surface-variant mb-8 max-w-xs mx-auto">
+                      This paper has no PDF attached yet.
+                    </p>
+                    <Link
+                      to={`/paper/${paper.id}/edit`}
+                      className="inline-flex items-center gap-3 px-8 py-4 scholarly-gradient text-on-primary font-bold rounded-md hover:translate-y-[-2px] transition-all duration-200 shadow-lg shadow-primary/20"
+                    >
+                      <span className="material-symbols-outlined">upload_file</span>
+                      Add PDF
+                    </Link>
                   </>
                 ) : (
                   <>

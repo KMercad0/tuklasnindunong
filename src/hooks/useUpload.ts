@@ -4,8 +4,8 @@ import { supabase } from '../lib/supabase'
 import { validatePdfFile } from '../lib/r2'
 import type { PaperFormData } from '../lib/types'
 
-/** Validation schema for paper metadata */
-const paperSchema = z.object({
+/** Validation schema for paper metadata (shared with useUpdatePaper) */
+export const paperSchema = z.object({
   title: z.string().min(1, 'Title is required').max(500),
   student_names: z.array(z.string().min(1)).min(1, 'At least one student name is required'),
   abstract: z.string().max(5000).optional().default(''),
@@ -38,44 +38,46 @@ export function useUpload() {
       }
       setProgress(10)
 
-      // 2. Validate PDF file
-      if (!formData.pdf_file) {
-        throw new Error('Please select a PDF file')
-      }
-      if (formData.pdf_file.size > 25 * 1024 * 1024) {
-        throw new Error('File size must be under 25MB')
-      }
-      const isValidPdf = await validatePdfFile(formData.pdf_file)
-      if (!isValidPdf) {
-        throw new Error('File is not a valid PDF')
-      }
-      setProgress(20)
-
-      // 3. Get current user
+      // 2. Get current user
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) throw new Error('You must be signed in to upload')
-      setProgress(30)
+      setProgress(20)
 
-      // 4. Upload PDF to Supabase Storage (temporary — will migrate to R2 later)
-      const fileExt = 'pdf'
-      const filePath = `${formData.school_year}/${formData.grade}/${crypto.randomUUID()}.${fileExt}`
+      // 3. PDF is optional — attach now or add later via edit.
+      //    Upload to Supabase Storage if present (temporary — will migrate to R2 later).
+      let pdfUrl: string | null = null
+      let pdfPath: string | null = null
+      let pdfSize: number | null = null
 
-      const { error: uploadError } = await supabase.storage
-        .from('papers')
-        .upload(filePath, formData.pdf_file, {
-          contentType: 'application/pdf',
-          upsert: false,
-        })
+      if (formData.pdf_file) {
+        if (formData.pdf_file.size > 25 * 1024 * 1024) {
+          throw new Error('File size must be under 25MB')
+        }
+        const isValidPdf = await validatePdfFile(formData.pdf_file)
+        if (!isValidPdf) {
+          throw new Error('File is not a valid PDF')
+        }
+        setProgress(30)
 
-      if (uploadError) throw new Error(`Upload failed: ${uploadError.message}`)
-      setProgress(70)
+        const filePath = `${formData.school_year}/${formData.grade}/${crypto.randomUUID()}.pdf`
+        const { error: uploadError } = await supabase.storage
+          .from('papers')
+          .upload(filePath, formData.pdf_file, {
+            contentType: 'application/pdf',
+            upsert: false,
+          })
+        if (uploadError) throw new Error(`Upload failed: ${uploadError.message}`)
+        setProgress(70)
 
-      // 5. Get public URL
-      const { data: urlData } = supabase.storage
-        .from('papers')
-        .getPublicUrl(filePath)
+        const { data: urlData } = supabase.storage
+          .from('papers')
+          .getPublicUrl(filePath)
+        pdfUrl = urlData.publicUrl
+        pdfPath = filePath
+        pdfSize = formData.pdf_file.size
+      }
 
-      // 6. Insert metadata
+      // 4. Insert metadata
       const { error: insertError } = await supabase.from('papers').insert({
         title: validation.data.title,
         student_names: validation.data.student_names,
@@ -85,9 +87,9 @@ export function useUpload() {
         school_year: validation.data.school_year,
         teacher_name: validation.data.teacher_name,
         teacher_id: user.id,
-        pdf_url: urlData.publicUrl,
-        pdf_path: filePath,
-        pdf_size_bytes: formData.pdf_file.size,
+        pdf_url: pdfUrl,
+        pdf_path: pdfPath,
+        pdf_size_bytes: pdfSize,
         keywords: validation.data.keywords.length > 0 ? validation.data.keywords : null,
       })
 
