@@ -7,9 +7,11 @@ import { Pagination } from '../components/archive/Pagination'
 import { ArchiveStats } from '../components/archive/ArchiveStats'
 import { usePapers } from '../hooks/usePapers'
 import { useAuth } from '../hooks/useAuth'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import type { PaperFilters } from '../lib/types'
 
 export function ArchivePage() {
+  useDocumentTitle(undefined, 'Browse student research papers from Goodwill National High School. Search by topic, teacher, year, or grade level.')
   const { isAuthenticated } = useAuth()
   const [searchParams, setSearchParams] = useSearchParams()
 

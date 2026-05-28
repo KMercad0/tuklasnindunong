@@ -4,6 +4,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { usePaper } from '../hooks/usePapers'
 import { useUpdatePaper } from '../hooks/useUpdatePaper'
 import { useAuth } from '../hooks/useAuth'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { PaperForm } from '../components/PaperForm'
 import type { Paper, PaperFormData } from '../lib/types'
 
@@ -50,6 +51,7 @@ export function EditPage() {
   const queryClient = useQueryClient()
   const { isAuthenticated } = useAuth()
   const { data: paper, isLoading } = usePaper(id!, isAuthenticated)
+  useDocumentTitle(paper ? `Edit — ${paper.title}` : 'Edit Paper')
   const { update, updating, progress, error } = useUpdatePaper()
   const [pending, setPending] = useState<PaperFormData | null>(null)
 

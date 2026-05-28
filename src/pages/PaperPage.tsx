@@ -3,6 +3,8 @@ import { usePaper } from '../hooks/usePapers'
 import { useAuth } from '../hooks/useAuth'
 import { useTrackView } from '../hooks/useTrackView'
 import { usePdfUrl } from '../hooks/usePdfUrl'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
+import { useJsonLd } from '../hooks/useJsonLd'
 import { formatFileSize } from '../lib/r2'
 import type { Paper } from '../lib/types'
 
@@ -21,6 +23,29 @@ export function PaperPage() {
   useTrackView(id)
   const pdfPath = paper && hasPdfAccess(paper) ? paper.pdf_path ?? undefined : undefined
   const { signedUrl, isLoading: pdfLoading } = usePdfUrl(pdfPath, isAuthenticated)
+  useDocumentTitle(
+    paper?.title,
+    paper?.abstract ? paper.abstract.slice(0, 150) : undefined
+  )
+  useJsonLd(
+    paper
+      ? {
+          '@context': 'https://schema.org',
+          '@type': 'ScholarlyArticle',
+          headline: paper.title,
+          abstract: paper.abstract ?? undefined,
+          datePublished: paper.created_at,
+          inLanguage: 'en',
+          keywords: paper.keywords ?? undefined,
+          educationalLevel: `Grade ${paper.grade}`,
+          isAccessibleForFree: true,
+          publisher: {
+            '@type': 'Organization',
+            name: 'Tuklas nin Dunong',
+          },
+        }
+      : null
+  )
 
   if (isLoading) {
     return (

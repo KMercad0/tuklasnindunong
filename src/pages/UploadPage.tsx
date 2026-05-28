@@ -1,10 +1,12 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query'
 import { useUpload } from '../hooks/useUpload'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { PaperForm } from '../components/PaperForm'
 import type { PaperFormData } from '../lib/types'
 
 export function UploadPage() {
+  useDocumentTitle('Upload Paper')
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const { upload, uploading, progress, error } = useUpload()

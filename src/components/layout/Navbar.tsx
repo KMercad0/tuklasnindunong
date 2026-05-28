@@ -112,8 +112,10 @@ export function Navbar() {
           <button
             className="md:hidden p-2"
             onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={mobileOpen}
           >
-            <span className="material-symbols-outlined">
+            <span className="material-symbols-outlined" aria-hidden="true">
               {mobileOpen ? 'close' : 'menu'}
             </span>
           </button>

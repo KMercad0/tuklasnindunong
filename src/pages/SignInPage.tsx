@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { useAuth } from '../hooks/useAuth'
 import { Navigate } from 'react-router-dom'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
 export function SignInPage() {
+  useDocumentTitle('Sign In')
   const { isAuthenticated, signIn } = useAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')

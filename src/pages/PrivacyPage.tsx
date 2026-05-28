@@ -1,4 +1,7 @@
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
+
 export function PrivacyPage() {
+  useDocumentTitle('Privacy Policy', 'How Tuklas nin Dunong handles student data, teacher accounts, and visitor information.')
   return (
     <main className="pt-24 pb-20 px-6 max-w-3xl mx-auto">
       <h1 className="text-3xl font-extrabold tracking-tight mb-2 text-on-surface">
